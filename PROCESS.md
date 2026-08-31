@@ -11,6 +11,8 @@ on-screen instructions.
 
 ## The moments that mattered
 
+### Isolating the collision rule under test
+
 1. **What happened:** The crit requires one rule of the game to have a
    focused automated test. The obvious candidate is collision — the check
    that ends a run — but it lived inline in the canvas animation loop,
@@ -29,6 +31,28 @@ on-screen instructions.
    extraction.
 4. **Citation:**
    [`59007c9`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-deadmobzer/commit/59007c9)
+
+### Mashing the key open the restart-refusal's timing bug
+
+1. **What happened:** After losing, then losing again without beating my
+   first score, the page locked me out and refused to restart. My instinct
+   was to just mash the restart key, the way anyone frustrated with a "No."
+   would — and doing that burned through all five escalating refusal lines
+   and relented in under a frame. Reading `refuse()` in isolation, the logic
+   looks correct: it does exactly what each call asks. The bug only shows up
+   as a *feel* problem, and only by actually playing it that way.
+2. **What I did instead of the obvious thing:** Rather than special-casing
+   key-repeat detection (fragile, and doesn't cover deliberate rapid tapping
+   on touch), I added a 500ms cooldown inside `refuse()` itself, so the
+   standoff is paced regardless of how the input arrives.
+3. **How I knew it was right:** I scripted the exact failure — six presses
+   back-to-back — before and after the fix: before, it relented in 31ms with
+   only "Fine. Go on then." showing; after, the same mashing only ever
+   registers "No." I then replayed it with realistic spacing between taps to
+   confirm all five lines still appear in order and it still relents on the
+   fifth, so paced play is unaffected.
+4. **Citation:**
+   [`5bdc036`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit5-deadmobzer/commit/5bdc036)
 
 ## Before you ship
 
