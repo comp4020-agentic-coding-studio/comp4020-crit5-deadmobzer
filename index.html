@@ -2,11 +2,11 @@
 <html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>COMP4020 prototype</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>No internet</title>
     <meta
       name="description"
-      content="Replace this with one sentence saying what this page is. A search result and a link preview both show it."
+      content="Not actually offline. A dinosaur game that keeps count, and eventually stops pretending it's here to help."
     />
 
     <!--
@@ -27,12 +27,35 @@
       </nav>
     </header>
     <main>
-      <h1>COMP4020 prototype</h1>
-      <p>
-        Replace this with your prototype. This week's brief is on the course website;
-        <code>spec/README.md</code> explains how the checks in this repo relate to it.
+      <canvas
+        id="game"
+        tabindex="0"
+        aria-label="Dinosaur running game. Press space or tap to jump."
+      ></canvas>
+
+      <div id="text">
+        <h1 id="head">No internet</h1>
+        <p class="label" id="label">Try:</p>
+        <ul>
+          <li id="i0">Turning off airplane mode</li>
+          <li id="i1">Turning on mobile data or Wi-Fi</li>
+          <li id="i2">Checking the signal in your area</li>
+        </ul>
+        <p class="code" id="code">ERR_INTERNET_DISCONNECTED</p>
+        <button class="later" id="btn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+          <span id="btnlabel">LOAD PAGE LATER</span>
+        </button>
+        <p class="reply" id="reply"></p>
+      </div>
+
+      <p class="credit">
+        Dino &amp; cactus sprites by SpiciousS,
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>,
+        via
+        <a href="https://commons.wikimedia.org/wiki/Category:Dinosaur_Game">Wikimedia Commons</a>.
       </p>
     </main>
-    <script type="module" src="./main.ts"></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
