@@ -202,7 +202,17 @@ function die() {
   }
 }
 
+// A held or mashed key sends jump() many times a second --- exactly what a
+// refused player does. Without a cooldown, that burns through all five
+// refusals in under a frame and the standoff resolves before it reads as one.
+var REFUSE_COOLDOWN = 500;
+var lastRefuseAt = -Infinity;
+
 function refuse() {
+  var now = performance.now();
+  if (now - lastRefuseAt < REFUSE_COOLDOWN) return;
+  lastRefuseAt = now;
+
   var msg = REFUSALS[Math.min(lockTaps, REFUSALS.length - 1)];
   lockTaps++;
   reply.textContent = msg;
