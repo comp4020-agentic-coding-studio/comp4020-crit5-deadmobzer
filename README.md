@@ -43,7 +43,7 @@ problems with mise.
 
 ## What's here
 
-- `index.html`, `styles.css`, `main.ts` --- a minimal starting site. Replace it.
+- `index.html`, `styles.css`, `main.js` --- the dino game prototype.
 - `mise.toml` --- the tested Node and pnpm versions for this template.
 - `spec/` --- what the checks are for (`README.md`) and the shipped invariants
   (`invariants.test.ts`); the spec tests you write live alongside them.
@@ -57,6 +57,11 @@ problems with mise.
 - `.githooks/pre-commit` --- blocks any commit that contains something shaped
   like an API key, so your COMP4020 key can't end up in a public repo. Installed
   automatically by `pnpm install`.
+- `assets/dino-existential.html` --- the original standalone draft the game was
+  built from, kept for reference; its logic now lives in `index.html`,
+  `main.js`, `styles.css`, and `game-rules.js`.
+- `game-rules.js` --- pure, DOM-free game rules (collision, the restart-lock),
+  imported by both `main.js` and `spec/game.test.ts`.
 
 This template is SSG-agnostic: plain HTML/CSS/TypeScript on Vite, so you can add
 Astro, Eleventy, or any static generator later without changing how it deploys.
