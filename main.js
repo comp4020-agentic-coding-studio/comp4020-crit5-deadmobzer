@@ -3,7 +3,7 @@
 // help. Collision and the restart-lock rule live in ./game-rules.js so they
 // can be tested without a DOM; everything else --- rendering, input, the
 // escalating copy --- lives here.
-import { boxesOverlap, locksOnRestart } from "./game-rules.js";
+import { boxesOverlap, locksOnRestart, refusalStep, RELENT_AFTER } from "./game-rules.js";
 import trexRunSrc from "./assets/sprites/trex-run-right.webp";
 import trexDeadSrc from "./assets/sprites/trex-dead.webp";
 import cactusSmallSrc from "./assets/sprites/cactus-small.webp";
@@ -125,8 +125,6 @@ var runs = 0,
   locked = false,
   lockTaps = 0;
 
-// How many refusals before the page relents. Set to Infinity for a real brick.
-var RELENT_AFTER = 5;
 var REFUSALS = [
   "No.",
   "I said no.",
@@ -209,15 +207,15 @@ var REFUSE_COOLDOWN = 500;
 var lastRefuseAt = -Infinity;
 
 function refuse() {
-  var now = performance.now();
-  if (now - lastRefuseAt < REFUSE_COOLDOWN) return;
-  lastRefuseAt = now;
+  var step = refusalStep(performance.now(), lastRefuseAt, lockTaps, REFUSE_COOLDOWN, RELENT_AFTER);
+  if (!step.processed) return;
+  lastRefuseAt = step.lastRefuseAt;
 
   var msg = REFUSALS[Math.min(lockTaps, REFUSALS.length - 1)];
-  lockTaps++;
+  lockTaps = step.tapsSoFar;
   reply.textContent = msg;
   reply.classList.add("show");
-  if (lockTaps >= RELENT_AFTER) {
+  if (step.relents) {
     locked = false;
     lastPhase = -1;
     reply.classList.remove("show");
